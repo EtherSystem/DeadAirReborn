@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>DeadAirReborn</RootNamespace>
+		<AssemblyName>DeadAirReborn</AssemblyName>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>false</IsPackable>
+		<AssemblyVersion>1.2.0.0</AssemblyVersion>
+		<FileVersion>1.2.0.0</FileVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<Platforms>AnyCPU;x64</Platforms>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TheLongDarkPath>D:\SteamLibrary\steamapps\common\TheLongDark</TheLongDarkPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="DeadAirMain.cs" />
+		<Compile Include="DeadAirUtils.cs" />
+		<Compile Include="DeadAirFunctionalities.cs" />
+		<Compile Include="Patches.cs" />
+		<Compile Include="Settings.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="ModSettings">
+			<HintPath>$(TheLongDarkPath)\Mods\ModSettings.dll</HintPath>
+		</Reference>
+		<Reference Include="ModData">
+			<HintPath>$(TheLongDarkPath)\Mods\ModData.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="STBlade.Modding.TLD.ModSettings" Version="1.9.0" />
+		<PackageReference Include="Waltz.Modding.TLD.Il2CppAssemblies.Windows" Version="2.52.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Reflection" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
+		<Using Include="Il2Cpp" />
+		<Using Include="HarmonyLib" />
+		<Using Include="MelonLoader" />
+		<Using Include="UnityEngine" />
+		<Using Include="ModSettings" />
+		<Using Include="ModData" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="Build">
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TheLongDarkPath)\Mods" SkipUnchangedFiles="true" />
+	</Target>
+</Project>
