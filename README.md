@@ -9,7 +9,7 @@ The filters drain in **REAL TIME**, so sleeping and advancing time will not get 
 
 **1.2.0**
 * Updated for 2.55.
-* Filters drain can be set on **IN-GAME TIME** I wanted.
+* Filters drain can be set on **IN-GAME TIME** if wanted.
 * Integration of ModData for starter kit persistence.
 
 **1.1.0**
