@@ -1,6 +1,6 @@
 using DeadAirReborn;
 
-[assembly: MelonInfo(typeof(DeadAirMain), "DeadAirReborn", "1.2.0", "EtherSystem", null)]
+[assembly: MelonInfo(typeof(DeadAirMain), "DeadAirReborn", "1.2.1", "EtherSystem", null)]
 [assembly: MelonGame("Hinterland", "TheLongDark")]
 
 namespace DeadAirReborn
@@ -9,7 +9,6 @@ namespace DeadAirReborn
     {
         public static bool isLoaded;
 
-        private static bool addedCustomComponents;
         private static float nextRuntimeRefresh;
         private static float starterGearCheckAllowedAt;
         private static string lastAppliedScene = string.Empty;
@@ -38,8 +37,6 @@ namespace DeadAirReborn
                 ResetStarterGearRuntimeCheck();
                 return;
             }
-
-            DoStuffWithGear();
 
             if (!Settings.instance.useMod)
             {
@@ -71,8 +68,6 @@ namespace DeadAirReborn
         private static void ApplyDeadAirRuntime(string sceneName, bool forceLog)
         {
             if (!DeadAirUtils.IsScenePlayable(sceneName)) return;
-
-            DoStuffWithGear();
 
             if (Time.realtimeSinceStartup >= starterGearCheckAllowedAt)
             {
@@ -142,14 +137,6 @@ namespace DeadAirReborn
             DeadAirUtils.SetInventoryCanisterDuration(DeadAirUtils.NormalCanisterGearName, 600f);
             DeadAirUtils.EnsureInventoryImprovisedFilter(300f);
             DeadAirUtils.ApplyChemicalPoisoning(false, 0, 0f, 300f, 2.5f);
-        }
-
-        private static void DoStuffWithGear()
-        {
-            if (addedCustomComponents) return;
-
-            DeadAirUtils.EnsureRespiratorCanisterComponent(DeadAirUtils.canisterimprov, 300f);
-            addedCustomComponents = true;
         }
 
         private static void EnsureStarterGearForCurrentSave()

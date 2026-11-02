@@ -27,23 +27,11 @@ namespace DeadAirReborn
 
         public static Panel_Inventory inventory;
 
-        private static GearItem loadedCanister;
-        private static GearItem loadedCanister2;
-        private static GearItem loadedCanister3;
-        private static GearItem loadedImprovisedCanister;
-        private static GearItem loadedRespirator;
-
         private static GearItem trackedMaskDrainCanister;
         private static CanisterKind trackedMaskDrainKind = CanisterKind.Unknown;
         private static AirPollutionProfile trackedMaskDrainProfile = AirPollutionProfile.Outside;
         private static float trackedMaskDrainCondition;
         private static float lastMaskDrainRealtime = -1f;
-
-        public static GearItem canister => loadedCanister ??= LoadGearItemPrefabSafe(NormalCanisterGearName);
-        public static GearItem canister2 => loadedCanister2 ??= LoadGearItemPrefabSafe(NormalCanisterGearName);
-        public static GearItem canister3 => loadedCanister3 ??= LoadGearItemPrefabSafe(NormalCanisterGearName);
-        public static GearItem canisterimprov => loadedImprovisedCanister ??= LoadGearItemPrefabSafe(ImprovisedCanisterGearName);
-        public static GearItem respirator => loadedRespirator ??= LoadGearItemPrefabSafe(RespiratorGearName);
 
         public static GameObject GetPlayer()
         {
@@ -107,9 +95,6 @@ namespace DeadAirReborn
 
         internal static GearItem SpawnGearInInventory(string gearName, int count, float normalizedCondition, float canisterSeconds = 0f)
         {
-            GearItem prefab = LoadGearItemPrefabSafe(gearName);
-            if (prefab == null) return null;
-
             PlayerManager playerManager = GameManager.GetPlayerManagerComponent();
             if (playerManager == null) return null;
 
@@ -117,7 +102,7 @@ namespace DeadAirReborn
 
             try
             {
-                spawned = playerManager.InstantiateItemInPlayerInventory(prefab, count, normalizedCondition, default);
+                spawned = playerManager.InstantiateItemInPlayerInventory(gearName, count, normalizedCondition, default);
             }
             catch (System.Exception exception)
             {
@@ -335,21 +320,6 @@ namespace DeadAirReborn
             catch
             {
                 return Mathf.Clamp01(gearItem.m_CurrentHP / 100f);
-            }
-        }
-
-        private static GearItem LoadGearItemPrefabSafe(string gearName)
-        {
-            try
-            {
-                GearItem prefab = GearItem.LoadGearItemPrefab(gearName);
-                if (prefab == null) MelonLogger.Msg(System.ConsoleColor.Yellow, $"Could not load prefab '{gearName}'.");
-                return prefab;
-            }
-            catch (System.Exception exception)
-            {
-                MelonLogger.Msg(System.ConsoleColor.Red, $"Could not load prefab '{gearName}': {exception.Message}");
-                return null;
             }
         }
 
